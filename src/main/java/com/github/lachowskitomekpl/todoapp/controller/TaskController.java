@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,6 +23,11 @@ public class TaskController {
     @PostMapping("/tasks")
     ResponseEntity<Task> createTask(@RequestBody Task createTask){
         return ResponseEntity.ok(taskService.saveTask(createTask));
+    }
+
+    @GetMapping(path = "/tasks")
+    public List<Task> getStudent(@RequestBody Task tasks) {
+        return taskService.findAll(tasks);
     }
 
     @GetMapping("/tasks/{id}")

@@ -1,5 +1,6 @@
 package com.github.lachowskitomekpl.todoapp.controller;
 
+import com.github.lachowskitomekpl.todoapp.TaskConfigurationProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
@@ -11,19 +12,22 @@ import javax.sql.DataSource;
 @RestController
 public class InfoController {
 
-    @Autowired
-    private DataSourceProperties dataSource;
-    @Value("${task.allowMultipleTemplate}")
-    private String prop;
 
+    private DataSourceProperties dataSource;
+    private TaskConfigurationProperties properties;
+
+    public InfoController(DataSourceProperties dataSource, TaskConfigurationProperties properties) {
+        this.dataSource = dataSource;
+        this.properties = properties;
+    }
 
     @GetMapping("/info/url")
     String url() {
         return dataSource.getUrl();
     }
 
-    @GetMapping("/info/prop")
-    String myProp() {
-        return prop;
+    @GetMapping("/info/properties")
+    boolean myProperties() {
+        return properties.isAllowMultipleTasksFromTemplate();
     }
 }
